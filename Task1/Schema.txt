@@ -1,0 +1,34 @@
+1. Departments(_name,abbr.)
+2. DeptGiveCourses(_dept,_course)
+	dept->Department.name
+	course-> Course.code
+3. Programs(_name,abbr.)
+4. DeptHostPrograms(_dept,_program)
+	dept-> Department.name
+	program ->Program.name
+5. ProgramAssignCourses(_program,_course)
+	program->Program.name
+	course->Course.code
+6. Branches(_program,_name)
+program->Program.name
+7. BranchAssignCourses(_program,_course)
+	program->Program.name
+	course->Course.code
+8. BranchIntroduceCourses(_program,_course)
+	program->Program.name
+	course->Course.code
+9.Courses(_code, name, credits, classification, #restriction)
+10.Prerequisites(_course,_preCourses)
+	course->Course.code
+	preCourses-> Course.code
+11.Students(_id,name,program,branch)
+	(program,branch) ->Branches(program,name)
+12.Enrollments(_student,_course,grade)
+	student->Student.id
+	course->Course.code
+13. RegisterCourse(_student,_course)
+	student->Student.id
+	course->Course.code
+14.WaitingLists(_student,_course,#position)
+	student->Student.id
+	course->Course.code

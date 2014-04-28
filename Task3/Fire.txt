@@ -1,0 +1,111 @@
+Comments:
+----------
+> For this task, we remove the “position” in the “waitinglist” table
+- This is wrong. Currently you appear to sort by the student ID (!), meaning students with low ID always go first in the queue.
+Solution:
+----------
+We get the position back to waitinglist table.But since it's meaningless to let the user insert the position manually maybe even not correct, we create a sequence for position and a trigger for auto-increment the position, the number is not updating in table but showing the correct sequence, we use this to create view which is ordered by position, this solve the sort by student ID problem.
+Code As Follow:
+----------
+create table waitinglist(
+id char(6),
+code char(6),
+position INT,
+foreign key (id) references student(id),
+foreign key (code) references restricted_course(code),
+primary key (id,code,position),
+constraint valid_position check (position>0)
+);
+CREATE SEQUENCE pos_seq;
+CREATE OR REPLACE TRIGGER position 
+BEFORE INSERT ON waitinglist 
+FOR EACH ROW
+BEGIN
+  SELECT pos_seq.NEXTVAL
+  INTO   :new.position
+  FROM   dual;
+END;
+CREATE VIEW CourseQueuePositions AS
+SELECT id,code, ROW_NUMBER() OVER (partition by code ORDER BY position) AS position
+FROM waitinglist
+ORDER BY code;
+/
+
+Comments:
+----------
+Registration:
+- You do not check for passed prerequisites.
+Solution:
+----------
+Sorry, we forgot this in last submission.Now we get all the precourses for new registration and substract the ones this student passed, if nothing left, then go througn, if still has courses not passed yet, it shows the error message.
+Code As Follow:
+----------
+WITH courseleft AS
+(
+(SELECT precourse
+FROM prerequisite
+WHERE course =:newregister.code)
+MINUS
+(SELECT code
+FROM enrollment
+WHERE id=:newregister.id AND grade in ('3','4','5')) 
+)
+SELECT COUNT(*) INTO cl FROM courseleft;
+IF cl =0 THEN --passed all prerequisites
+....
+ELSE -- not all prerequisites passed
+	RAISE_APPLICATION_ERROR(-20000,'Not all prerequisites of this course 	passed before register');
+	END IF; -- end of pass prerequisites
+
+
+Comments:
+----------
+Unregistration:
+> RAISE_APPLICATION_ERROR(-20000,'Student is not registered in this course');
+- This can not occur (as you should have noticed from testing)
+Solution:
+----------
+We only pick one in the test which student is in the waitinglist but not registered to the course, it works as follow:
+--unregister a waiting student
+DELETE FROM Registrations WHERE id='chr008' AND code='TDA357';
+Error Message:
+ERROR at line 1:
+ORA-20000: Student is not registered in this course
+ORA-06512: at "HTDA357_000.COURSEUNREGISTRATION", line 26
+ORA-04088: error during execution of trigger 'HTDA357_000.COURSEUNREGISTRATION' 
+
+But we test all the records for the waiting list, it works randomly, some shows the error message as above and some shows 0 line deleted.
+DELETE FROM Registrations WHERE id='chr001' AND code='DAT230';
+DELETE FROM Registrations WHERE id='chr002' AND code='TDA357';
+DELETE FROM Registrations WHERE id='chr004' AND code='DAT397';
+DELETE FROM Registrations WHERE id='ahr005' AND code='ERE350';
+DELETE FROM Registrations WHERE id='chr014' AND code='DAT230';
+DELETE FROM Registrations WHERE id='chr015' AND code='DAT230';
+DELETE FROM Registrations WHERE id='chr008' AND code='TDA357';
+
+This is a problem we couldn't figure out, but according to the response during the lab session, it's okay to not check exists, since the oracle would check the records first before the trigger,which makes it doesn't come into the trigger.So we decide to omit this checking for now, but we would appreciate if could get any help to find out why and how this would work.
+
+******************************************************************************
+A Change for this part is, before we assume the student who is in waitinglist could not unregister from this course. But in the list of tests in Task 4 says:
+b.Unregister the student(a student just inserted into waitinglist) and show that they were removed from the waiting list.
+So we unwait the student who is in the waitinglist from this course
+******************************************************************************
+
+
+Comments:
+----------
+>(SELECT MIN(position) FROM coursequeuepositions
+- This should always be 1 if your view works as intended.
+Solution:
+----------
+Yes, the view works that way. So we change this line into
+    WHERE code =:oldregister.code AND position = '1';
+
+
+Comments:
+----------
+Test Data:
+- Add a test to detect each of the errors above.
+Solution:
+----------
+All the modified has been tested in triggertest

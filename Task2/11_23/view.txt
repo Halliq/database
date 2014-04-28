@@ -1,0 +1,49 @@
+CREATE VIEW StudentFollowing AS
+SELECT name,program,branch
+FROM student
+
+CREATE VIEW FinishCourses AS
+SELECT student.name as StudentName,course.name as CourseName,enrollment.grade
+FROM enrollment,student,course
+WHERE enrollment.id = student.id 
+AND enrollment.code = course.code
+
+CREATE VIEW Registrations AS
+SELECT id,code, 'registered' AS registerStatus 
+FROM register_course
+UNION
+SELECT id,code, 'waiting' AS  WaitingStatus 
+FROM waitinglist;
+
+CREATE VIEW PassedCourses AS
+SELECT student.name StudentName,course.name CourseName,grade
+FROM enrollment en, student,course
+WHERE en.id = student.id
+AND en.code = course.code
+AND en.grade not in ('U')
+
+CREATE VIEW UnreadMandatory AS
+/* Get all mandatory courses for each students for his program and branch*/
+(
+(SELECT student.id Student, pm.code ManCourse
+FROM student INNER JOIN program_assign_man_course pm 
+     on student.program = pm.name)
+UNION
+(SELECT student.id Student, bm.code ManCourse
+FROM student INNER JOIN branch_assign_man_course bm 
+     on student.program = bm.program
+     AND student.branch = bm.branch)
+)
+MINUS -- UnreadMandatory = AllMandatory-AllPassedMandatory
+/* Get all the students with their passed Mandatory courses*/
+(
+(SELECT en.id Student,en.code ManCourse
+FROM enrollment en INNER JOIN program_assign_man_course pm 
+     on en.code = pm.code
+WHERE en.grade in ('3','4','5'))
+UNION
+(SELECT en.id Student,en.code ManCourse
+FROM enrollment en INNER JOIN branch_assign_man_course bm 
+     on en.code = bm.code
+WHERE en.grade in ('3','4','5'))
+)

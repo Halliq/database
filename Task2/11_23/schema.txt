@@ -1,0 +1,39 @@
+Schema
+1. Departments(_name,abbr.)
+2. Programs(_name,abbr.)
+3. DeptHostPrograms(_dept,_program)
+	dept-> Department.name
+	program ->Program.name
+4. Branches(_program,_name)
+	program->Program.name
+5. Courses(_code,name,credits,dept.)
+	dept.->Department.name
+6. Classifications(_type)
+7. Classified(_code,_type)
+	code->Course.code
+	type->classification.type
+8. Prerequisites(_course,_preCourses)
+	course->Course.code
+	preCourses-> Course.code
+9. RestrictedCourses(_code, #restriction)
+	code->course.code
+10.ProgramAsgManCourses(_name,_code)
+	name->Program.name
+	code -> Course.code
+11.BranchAsgManCourses(program,branch,_code)
+	(program,branch) ->Branches(program,name)
+	code->Course.code
+12.BranchAsgRecCourses(program,branch,_code)
+	(program,branch) ->Branches(program,name)
+	code->Course.code
+13.Students(_id,name,program,branch)
+	(program,branch) ->Branches(program,name)
+14.Enrollments(_id,_code,grade)
+	id->Student.id
+	code->Course.code
+15.RegisterCourses(_id,_code)
+	id->Student.id
+	code->Course.code
+16.WaitingLists(_id,_code,#position)
+	id->Student.id
+	code->RestrictedCourse.code

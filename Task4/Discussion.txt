@@ -1,0 +1,3 @@
+Discussion4
+In student information, it shows the student basic info, the status of graduation, the student passed course and involved course(registered/waiting), if this student is waiting in one course, the corresponding position would show in the end.
+ If a student register or unregister to a course,  the trigger would execute and print out the corresponding status of register or unregister.

@@ -1,0 +1,28 @@
+
+INSERT INTO department (name, abbr) VALUES ('Computer Science','CS')   
+INSERT INTO department (name, abbr) VALUES ('Computer Science','CS')
+INSERT INTO department(name, abbr) VALUES ('Computer Engineering','CE')
+INSERT INTO department(name, abbr) VALUES ('Automation Engineering','AE')
+
+INSERT INTO program(name, abbr) VALUES ('Computer Science and Engineering programme','CSEP')
+INSERT INTO program(name, abbr) VALUES ('Automation Technology','AT')
+
+INSERT INTO dept_host_program(dept, program) VALUES ('Computer Science','Computer Science and Engineering programme')
+INSERT INTO dept_host_program(dept, program) VALUES ('Computer Engineering','Computer Science and Engineering programme')
+INSERT INTO dept_host_program(dept, program) VALUES ('Automation Engineering','Automation Technology')
+
+INSERT INTO branch(program, name) VALUES ('Automation Technology','Interaction Design')
+INSERT INTO branch(program, name) VALUES ('Computer Science and Engineering Programme','Interaction Design')
+INSERT INTO branch(program, name) VALUES ('Computer Science and Engineering Programme','Software Engineering')
+INSERT INTO branch(program, name) VALUES ('Computer Science and Engineering Programme','Algorithms')
+
+INSERT INTO course(code, name,credits,dept.) VALUES ('TDA357','Database','7.5','Computer Science')
+INSERT INTO course(code, name,credits,dept.) VALUES ('TDA282','Compiler Construction','7.5','Computer Science')
+INSERT INTO course(code, name,credits,dept.) VALUES ('DAT265','Software Evolution Project','15','Computer Engineering')
+INSERT INTO course(code, name,credits,dept.) VALUES ('DAT230','Requirement Engineering','7.5','Computer Engineering')
+INSERT INTO course(code, name,credits,dept.) VALUES ('DAT240','Model-driven Engineering','7.5','Computer Engineering')
+INSERT INTO course(code, name,credits,dept.) VALUES ('DAT397','Agile Development','7.5','Computer Engineering')
+INSERT INTO course(code, name,credits,dept.) VALUES ('ERE091','Automatic control','4.5','Automation Engineering')
+INSERT INTO course(code, name,credits,dept.) VALUES ('SSY042','Signals and Systems','7.5','Automation Engineering')
+
+INSERT INTO student(id, name, program, branch) VALUES ('chr001','Chris Jester-Young','Computer Science and Engineering programme','Interaction Design')

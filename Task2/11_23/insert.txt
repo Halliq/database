@@ -1,0 +1,83 @@
+INSERT INTO department (name, abbr) VALUES ('Computer Science','CS');   
+INSERT INTO department(name, abbr) VALUES ('Computer Engineering','CE');
+INSERT INTO department(name, abbr) VALUES ('Automation Engineering','AE');
+
+INSERT INTO program(name, abbr) VALUES ('Computer Science and Engineering Programme','CSEP');
+INSERT INTO program(name, abbr) VALUES ('Automation Technology','AT');
+
+INSERT INTO dept_host_program(dept, program) VALUES ('Computer Science','Computer Science and Engineering Programme');
+INSERT INTO dept_host_program(dept, program) VALUES ('Computer Engineering','Computer Science and Engineering Programme');
+INSERT INTO dept_host_program(dept, program) VALUES ('Automation Engineering','Automation Technology');
+
+INSERT INTO branch(program, name) VALUES ('Automation Technology','Interaction Design');
+INSERT INTO branch(program, name) VALUES ('Computer Science and Engineering Programme','Interaction Design');
+INSERT INTO branch(program, name) VALUES ('Computer Science and Engineering Programme','Software Engineering');
+INSERT INTO branch(program, name) VALUES ('Computer Science and Engineering Programme','Algorithms');
+
+INSERT INTO course(code, name,credit,dept) VALUES('MAT001','Advanced Math','15','Computer Science');
+INSERT INTO course(code, name,credit,dept) VALUES('TDA357','Database','7','Computer Science');
+INSERT INTO course(code, name,credit,dept) VALUES ('DAT265','Software Evolution Project','15','Computer Engineering');
+INSERT INTO course(code, name,credit,dept) VALUES ('DAT230','Requirement Engineering','7','Computer Engineering');
+INSERT INTO course(code, name,credit,dept) VALUES ('DAT397','Agile Development','7','Computer Engineering');
+INSERT INTO course(code, name,credit,dept) VALUES ('ERE091','Automatic control','4','Automation Engineering');
+INSERT INTO course(code, name,credit,dept) VALUES ('ERE350','System Design ','7','Automation Engineering');
+
+INSERT INTO classification(type) VALUES ('mathematical');
+INSERT INTO classification(type) VALUES ('seminar');
+INSERT INTO classification(type) VALUES ('research');
+
+INSERT INTO classified(code, type) VALUES ('MAT001','mathematical');
+INSERT INTO classified(code, type) VALUES ('TDA357','seminar');
+INSERT INTO classified(code, type) VALUES ('TDA357','mathematical');
+INSERT INTO classified(code, type) VALUES ('DAT265','research');
+INSERT INTO classified(code, type) VALUES ('DAT230','seminar');
+INSERT INTO classified(code, type) VALUES ('DAT230','research');
+INSERT INTO classified(code, type) VALUES ('ERE091','mathematical');
+
+INSERT INTO prerequisite(course, precourse) VALUES ('DAT357','MAT001');
+INSERT INTO prerequisite(course, precourse) VALUES ('DAT230','MAT001');
+INSERT INTO prerequisite(course, precourse) VALUES ('DAT265','DAT230');
+INSERT INTO prerequisite(course, precourse) VALUES ('DAT265','DAT397');
+INSERT INTO prerequisite(course, precourse) VALUES ('DAT397','DAT230');
+
+INSERT INTO restricted_course(code,restriction) VALUES ('TDA357','80');
+INSERT INTO restricted_course(code,restriction) VALUES ('DAT397','60');
+INSERT INTO restricted_course(code,restriction) VALUES ('DAT265','60');
+
+INSERT INTO program_assign_man_course(name, code) VALUES ('Computer Science and Engineering Programme','MAT001');
+INSERT INTO program_assign_man_course(name, code) VALUES ('Computer Science and Engineering Programme','DAT230');
+INSERT INTO program_assign_man_course(name, code) VALUES ('Computer Science and Engineering Programme','TDA357');
+INSERT INTO program_assign_man_course(name, code) VALUES ('Automation Technology','ERE091');
+
+INSERT INTO branch_assign_man_course(program, branch, code) VALUES ('Computer Science and Engineering Programme','Software Engineering','DAT397');
+INSERT INTO branch_assign_rec_course(program, branch, code) VALUES ('Computer Science and Engineering Programme','Software Engineering','DAT265');
+
+INSERT INTO student(id, name, program, branch) VALUES ('chr001','Chris Young','Computer Science and Engineering Programme','Interaction Design');
+INSERT INTO student(id, name, program, branch) VALUES ('chr002','Johan Johansson','Computer Science and Engineering Programme','Interaction Design');
+INSERT INTO student(id, name, program, branch) VALUES ('chr003','Maria Andersson','Computer Science and Engineering Programme','Software Engineering');
+INSERT INTO student(id, name, program, branch) VALUES ('chr004','Sofia Olsson','Computer Science and Engineering Programme','Software Engineering');
+INSERT INTO student(id, name, program, branch) VALUES ('ahr005','David Larsson','Automation Technology','Interaction Design');
+
+INSERT INTO enrollment(id, code, grade) VALUES ('chr001', 'MAT001', '3');
+INSERT INTO enrollment(id, code, grade) VALUES ('chr001', 'TDA357', 'U');
+INSERT INTO enrollment(id, code, grade) VALUES ('chr002', 'MAT001', '4');
+INSERT INTO enrollment(id, code, grade) VALUES ('chr002', 'TDA230', '5');
+INSERT INTO enrollment(id, code, grade) VALUES ('chr003', 'MAT001', '5');
+INSERT INTO enrollment(id, code, grade) VALUES ('chr003', 'DAT357', '4');
+INSERT INTO enrollment(id, code, grade) VALUES ('chr003', 'DAT230', '4');
+INSERT INTO enrollment(id, code, grade) VALUES ('chr003', 'DAT397', '4');
+INSERT INTO enrollment(id, code, grade) VALUES ('chr003', 'DAT265', '3');
+INSERT INTO enrollment(id, code, grade) VALUES ('chr004', 'MAT001', '5');
+INSERT INTO enrollment(id, code, grade) VALUES ('chr004', 'DAT230', '5');
+INSERT INTO enrollment(id, code, grade) VALUES ('chr004', 'DAT397', 'U');
+INSERT INTO enrollment(id, code, grade) VALUES ('ahr005', 'ERE091', '3');
+
+INSERT INTO register_course(id, code) VALUES ('chr001','DAT230');
+INSERT INTO register_course(id, code) VALUES ('chr002','DAT357');
+INSERT INTO register_course(id, code) VALUES ('chr004','DAT397');
+INSERT INTO register_course(id, code) VALUES ('ahr005','ERE350');
+
+INSERT INTO waitinglist(id,code,position) VALUES ('chr001','TDA357','3');
+INSERT INTO waitinglist(id,code,position) VALUES ('chr004','DAT357','5');
+INSERT INTO waitinglist(id,code,position) VALUES ('chr004','DAT265','5');
+
